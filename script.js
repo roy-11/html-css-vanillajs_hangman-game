@@ -5,9 +5,10 @@ const popup = document.getElementById("popup-container");
 const notification = document.getElementById("notification-container");
 const finalMessage = document.getElementById("final-message");
 const finalMessageRevealWord = document.getElementById("final-message-reveal-word");
+const figureParts = document.querySelectorAll(".figure-part");
 
 const words = ["application", "programming", "interface", "wizard"];
-const selectedWord = words[Math.floor(Math.random() * words.length)];
+let selectedWord = words[Math.floor(Math.random() * words.length)];
 const correctLetters = [];
 const wrongLetters = [];
 
@@ -29,8 +30,25 @@ function displayWord() {
 }
 
 function updateWrongLettersEl() {
-  console.log("update wrong letter");
-  console.log(wrongLetters);
+  wrongLettersEl.innerHTML = `
+  ${wrongLetters.length > 0 ? "<p>Wrong</p>" : ""}
+  ${wrongLetters.map((letter) => `<span>${letter}</span>`)}
+  `;
+
+  figureParts.forEach((part, index) => {
+    const errors = wrongLetters.length;
+
+    if (index < errors) {
+      part.style.display = "block";
+    } else {
+      part.style.display = "none";
+    }
+
+    if (wrongLetters.length === figureParts.length) {
+      finalMessage.innerText = "ざんねん！あなたの負けです😃";
+      popup.style.display = "flex";
+    }
+  });
 }
 
 function showNotification() {
@@ -62,4 +80,12 @@ window.addEventListener("keydown", (e) => {
     }
   }
 });
-a;
+
+playAgainBtn.addEventListener("click", () => {
+  correctLetters.splice(0);
+  wrongLetters.splice(0);
+  selectedWord = words[Math.floor(Math.random() * words.length)];
+  displayWord();
+  updateWrongLettersEl();
+  popup.style.display = "none";
+});

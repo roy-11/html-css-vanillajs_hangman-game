@@ -126,3 +126,18 @@ h1 {
 .notification-container.show {
   transform: translateY(-60px);
 }
+
+@media (max-width: 480px) {
+  .game-container {
+    width: 300px;
+  }
+
+  #wrong-letters {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #wrong-letters span {
+    font-size: 14px;
+  }
+}
